@@ -1,0 +1,40 @@
+<h1>Books</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Body</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @books.each do |f| %>
+      <tr>
+        <td><%= f.title %></td>
+        <td><%= f.body %></td>
+        <!--<td>Show</td><td>Edit</td><td>Destroy</td>を削除して、以下コードに変更-->
+        <td><%= link_to "Show", book_path(f.id) %></td>
+        <td><%= link_to "Edit", edit_book_path(f.id) %></td>
+        <td><%= link_to "Destroy", book_path(f.id),method: :delete %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<!--form_with部分-->
+<h2>New book</h2>
+<%= form_with model: @book, url:'/books', local:true do |f| %>
+<% if @book.errors.any? %>
+<h3>入力した内容にerrorが<%= @book.errors.count %>件あります</h3>
+    <ul>
+      <% @book.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+<% end %>
+<h4>title</h4>
+<%= f.text_field :title %>
+<h4>body</h4>
+<%= f.text_area :body %>
+<%= f.submit 'Create Book' %>
+<% end %>
